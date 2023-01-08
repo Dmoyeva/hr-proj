@@ -1,7 +1,9 @@
 <template>
-  <div class="container">
-    <div class="app">
-      <h2>attendances</h2>
+  <div class="dashboard-container">
+    <div class="app-container">
+      <h2>
+        考勤
+      </h2>
     </div>
   </div>
 </template>
@@ -12,6 +14,10 @@ export default {
 }
 </script>
 
+<<<<<<< HEAD
 <style lang="scss" scoped>
+=======
+<style>
+>>>>>>> de2b64cd396c5c0c331271bbe6882bbb0a2c7117
 
 </style>

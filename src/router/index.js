@@ -10,6 +10,16 @@ import salaryRouter from './modules/salary'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
 
+// 引入多个模块的规则
+import approvalsRouter from './modules/approvals'
+import departmentsRouter from './modules/departments'
+import employeesRouter from './modules/employees'
+import permissionRouter from './modules/permission'
+import attendancesRouter from './modules/attendances'
+import salaryRouter from './modules/salary'
+import settingRouter from './modules/setting'
+import socialRouter from './modules/social'
+
 Vue.use(Router)
 
 /* Layout */
@@ -65,6 +75,16 @@ export const constantRoutes = [
   },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
+]
+export const dynamicRoutes = [
+  approvalsRouter,
+  departmentsRouter,
+  employeesRouter,
+  permissionRouter,
+  attendancesRouter,
+  salaryRouter,
+  settingRouter,
+  socialRouter
 ]
 
 export const dynamicRoutes = [
