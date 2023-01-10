@@ -115,3 +115,21 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+export function transList(list, rootValue) {
+  const arr = []
+  list.forEach(item => {
+    // 先遍历数组，找到根节点
+    if (item.pid === rootValue) {
+      // 找到根节点了，找子节点==>子节点的pid===根节点的id==>调用自己
+      const children = transList(list, item.id)
+      // 找到子节点了，让子节点称为跟节点的children
+      if (children.length) {
+        item.children = children
+      }
+      // 把遍历的item追加到数组中
+      arr.push(item)
+    }
+  })
+  return arr
+}
