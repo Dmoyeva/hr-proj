@@ -1,6 +1,16 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ username }}</div>
+    <Bar :left-show="true">
+      <template #left>
+        click
+      </template>
+      <template #right>
+        <el-button>click</el-button>
+        <el-button>click</el-button>
+        <el-button>click</el-button>
+      </template>
+    </Bar>
   </div>
 </template>
 
@@ -9,6 +19,11 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dashboard',
+  data() {
+    return {
+      isLeftShow: true
+    }
+  },
   computed: {
     ...mapGetters([
       'username'
