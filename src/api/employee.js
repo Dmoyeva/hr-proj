@@ -39,3 +39,14 @@ export const addStuffInfo = (data) => {
     data
   })
 }
+
+/*
+  *批量导入员工
+*/
+export const batchImportStuff = (data) => {
+  return request({
+    url: '/sys/user/batch',
+    method: 'post',
+    data
+  })
+}

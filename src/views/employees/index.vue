@@ -6,8 +6,8 @@
           共{{ queryInfo.total }}条数据
         </template>
         <template #right>
-          <el-button type="success" size="small">excel导入</el-button>
-          <el-button type="danger" size="small">excel导出</el-button>
+          <el-button type="success" size="small" @click="$router.push('/import')">excel导入</el-button>
+          <el-button type="danger" size="small" @click="handleExport">excel导出</el-button>
           <el-button type="primary" size="small" @click="isDialogShow = true">新增员工</el-button>
         </template>
       </Bar>
@@ -59,6 +59,7 @@
 import { getAllStuffInfo, deleteStuffInfo } from '@/api/employee'
 import EmployeesEnum from '@/api/constant/employees'
 import Dialog from './components/dialog.vue'
+import { formatDate } from '@/filters'
 export default {
   components: { Dialog },
   data() {
@@ -103,6 +104,45 @@ export default {
       } catch (err) {
         this.$message.info('已取消操作')
       }
+    },
+    async handleExport() {
+      const headerMap = {
+        '手机号': 'mobile',
+        '姓名': 'username',
+        '入职日期': 'timeOfEntry',
+        '聘用形式': 'formOfEmployment',
+        '转正日期': 'correctionTime',
+        '工号': 'workNumber',
+        '部门': 'departmentName'
+      }
+      const { rows } = await getAllStuffInfo({ page: 1, size: this.queryInfo.total })
+      const data = this.formatData(headerMap, rows)
+      // console.log(data)
+      import('@/vendor/Export2Excel').then(excel => {
+        excel.export_json_to_excel({
+          multiHeader: [['手机', '主要信息', '', '', '', '', '部门']],
+          merges: ['A1:A2', 'B1:F1', 'G1:G2'],
+          header: Object.keys(headerMap),
+          data,
+          filename: 'filename'
+        })
+      })
+    },
+    formatData(header, list) {
+      return list.map(item => {
+        // ['手机号','姓名'...]，还要处理时间跟聘用形式
+        return Object.keys(header).map(key => {
+          // ['138...','ZS'...]
+          if (header[key] === 'timeOfEntry' || header[key] === 'correctionTime') {
+            return formatDate(item[header[key]])
+          }
+          if (header[key] === 'formOfEmployment') {
+            const type = this.EmployeesEnum.hireType.find(obj => obj.id === item[header[key]])
+            return type ? type.value : 'unknown' // 需要判断找到了没！
+          }
+          return item[header[key]]
+        })
+      })
     }
   }
 

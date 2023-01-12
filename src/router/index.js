@@ -9,11 +9,10 @@ import attendancesRouter from './modules/attendances'
 import salaryRouter from './modules/salary'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
-
-Vue.use(Router)
-
 /* Layout */
 import Layout from '@/layout'
+
+Vue.use(Router)
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -62,6 +61,15 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '主页', icon: 'dashboard' }
     }]
+  },
+
+  {
+    path: '/import',
+    component: Layout,
+    hidden: true, // 隐藏在左侧菜单中
+    children: [
+      { path: '', name: 'Import', component: () => import('@/views/import') }
+    ]
   },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
