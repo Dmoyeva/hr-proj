@@ -17,7 +17,7 @@ export function getUserinfo() {
   })
 }
 
-// 获取用户详细资料==>使用用户的额头像
+// 获取用户详细资料==>使用用户的头像
 export function getUserinfoDetail(id) {
   return request({
     url: `/sys/user/${id}`

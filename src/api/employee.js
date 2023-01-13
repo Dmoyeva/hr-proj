@@ -50,3 +50,15 @@ export const batchImportStuff = (data) => {
     data
   })
 }
+
+/*
+  *批量导入员工
+*/
+export const refreshStuffInfo = (data) => {
+  return request({
+    url: `/sys/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
+

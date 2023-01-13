@@ -13,7 +13,7 @@
       </Bar>
       <el-card>
         <el-table border :data="stuffList">
-          <el-table-column type="index" label="序号" sortable align="center" width="60px" />
+          <el-table-column type="index" label="序号" sortable="" align="center" width="60px" />
           <el-table-column label="姓名" prop="username" sortable />
           <el-table-column label="手机号" prop="mobile" sortable />
           <el-table-column label="工号" prop="workNumber" sortable />
@@ -29,9 +29,9 @@
               <el-switch :value="row.enableState === 1" />
             </template>
           </el-table-column>
-          <el-table-column label="操作" sortable width="240px" align="center">
+          <el-table-column label="操作" sortable width="240px" align="center" fixed="right">
             <template slot-scope="{ row }">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push(`/employees/detail/${ row.id }`)">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
