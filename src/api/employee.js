@@ -52,7 +52,7 @@ export const batchImportStuff = (data) => {
 }
 
 /*
-  *批量导入员工
+  *更新员工个人基本信息
 */
 export const refreshStuffInfo = (data) => {
   return request({
@@ -62,3 +62,42 @@ export const refreshStuffInfo = (data) => {
   })
 }
 
+/*
+  *获取员工个人全部基础信息
+*/
+export const getStuffPersonalInfo = (id) => {
+  return request({
+    url: `/employees/${id}/personalInfo`
+  })
+}
+
+/*
+*保存员工个人全部基础信息
+*/
+export const saveStuffPersonalInfo = (data) => {
+  return request({
+    url: `/employees/${data.userId}/personalInfo`,
+    method: 'put',
+    data
+  })
+}
+
+/*
+  *获取员工岗位信息
+*/
+export const getStuffJobInfo = (id) => {
+  return request({
+    url: `/employees/${id}/jobs`
+  })
+}
+
+/*
+  *更新员工岗位信息
+*/
+export const updateStuffJobInfo = (data) => {
+  return request({
+    url: `/employees/${data.userId}/jobs`,
+    method: 'put',
+    data
+  })
+}

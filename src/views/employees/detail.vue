@@ -18,8 +18,13 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="个人详情" />
-          <el-tab-pane label="岗位信息" />
+          <el-tab-pane label="个人详情">
+            <!-- 动态组件 -->
+            <component :is="personalComponent" />
+          </el-tab-pane>
+          <el-tab-pane label="岗位信息">
+            <Job />
+          </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
@@ -29,7 +34,10 @@
 <script>
 import { getUserinfoDetail } from '@/api/user'
 import { refreshStuffInfo } from '@/api/employee'
+import Personal from './components/personal.vue'
+import Job from './components/job.vue'
 export default {
+  components: { Personal, Job },
   data() {
     return {
       formData: {
@@ -40,7 +48,8 @@ export default {
         username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
         newPassword: [{ required: true, message: '密码不能为空', trigger: 'blur' }, { min: 6, max: 9, message: '密码长度6-9位', trigger: 'blur' }]
       },
-      stuffId: this.$route.params.id
+      stuffId: this.$route.params.id,
+      personalComponent: 'Personal'
     }
   },
   created() {
