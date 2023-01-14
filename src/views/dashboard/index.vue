@@ -11,6 +11,7 @@
         <el-button>click</el-button>
       </template>
     </Bar>
+    <UploadImage />
   </div>
 </template>
 
