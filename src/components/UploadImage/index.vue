@@ -61,7 +61,7 @@ export default {
       const imageType = ['image/jpeg', 'image/png', 'image/bmp', 'image/gif']
       // const typeCheck = imageType.some(item => item === file.type)
       const typeCheck = imageType.includes(file.type)
-      const maxSize = 5 * 1024 * 1024
+      const maxSize = 10 * 1024 * 1024
       if (!typeCheck) {
         this.$message.error('仅支持jpg/png/bmp/gif格式文件')
         return false
@@ -102,8 +102,8 @@ export default {
               })
               setTimeout(() => {
                 this.isProgressShow = false
+                this.percentage = 0 // 要重置百分比！！！
               }, 1000)
-              this.percentage = 0 // 要重置百分比！！！
             }
           }
         )

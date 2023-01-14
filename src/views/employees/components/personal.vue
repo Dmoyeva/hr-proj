@@ -58,6 +58,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
+            <upload-image ref="avatarRef" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -89,6 +90,7 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <upload-image ref="photoRef" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -364,16 +366,36 @@ export default {
   methods: {
     async getUserinfoDetail() {
       this.userInfo = await getUserinfoDetail(this.userId)
+      // 判断userInfo里有没有staffPhoto，然后进行赋值显示
+      if (this.userInfo.staffPhoto && this.userInfo.staffPhoto.trim()) {
+        this.$refs.avatarRef.fileList = [{ url: this.userInfo.staffPhoto, uploaded: true }]
+      }
     },
     async refreshStuffInfo() {
-      await refreshStuffInfo(this.userInfo)
+      const fileList = this.$refs.avatarRef.fileList
+      // 上传的时候要做判断，图片上传成功了
+      if (fileList.some(item => !item.uploaded)) {
+        this.$message.warning('请等待图片上传完成后再提交')
+        return
+      }
+      // { ...this.userInfo, staffPhoto: fileList.length ? fileList[0].url : ' ' }
+      await refreshStuffInfo({ ...this.userInfo, staffPhoto: fileList.length ? fileList[0].url : ' ' })
       this.$message.success('更新成功')
     },
     async getStuffPersonalInfo() {
       this.formData = await getStuffPersonalInfo(this.userId)
+      if (this.formData.staffPhoto && this.formData.staffPhoto.trim()) {
+        this.$refs.photoRef.fileList = [{ url: this.formData.staffPhoto, uploaded: true }]
+      }
     },
     async saveStuffPersonalInfo() {
-      await saveStuffPersonalInfo(this.formData)
+      const fileList = this.$refs.photoRef.fileList
+      // 上传的时候要做判断，图片上传成功了
+      if (fileList.some(item => !item.uploaded)) {
+        this.$message.warning('请等待图片上传完成后再提交')
+        return
+      }
+      await saveStuffPersonalInfo({ ...this.formData, staffPhoto: fileList.length ? fileList[0].url : ' ' })
       this.$message.success('更新成功')
     }
   }

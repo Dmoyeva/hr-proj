@@ -15,6 +15,11 @@
         <el-table border :data="stuffList">
           <el-table-column type="index" label="序号" sortable="" align="center" width="60px" />
           <el-table-column label="姓名" prop="username" sortable />
+          <el-table-column label="头像" sortable align="center" width="120px">
+            <template v-slot="{ row }">
+              <img v-imagerror="require('@/assets/common/head.jpg')" :src="row.staffPhoto" alt="" style="width: 100px; height: 100px; padding: 10px; border-radius: 50%" @click="showQrCode(row.staffPhoto)">
+            </template>
+          </el-table-column>
           <el-table-column label="手机号" prop="mobile" sortable />
           <el-table-column label="工号" prop="workNumber" sortable />
           <el-table-column label="聘用形式" prop="formOfEmployment" sortable :formatter="hireTypeFormat" />
@@ -51,6 +56,9 @@
         </el-row>
       </el-card>
       <Dialog :is-dialog-show.sync="isDialogShow" />
+      <el-dialog :visible.sync="isQrCodeShow" title="二维码">
+        <el-row type="flex" justify="center" align="middle"> <canvas ref="canvasRef" /></el-row>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -60,6 +68,7 @@ import { getAllStuffInfo, deleteStuffInfo } from '@/api/employee'
 import EmployeesEnum from '@/api/constant/employees'
 import Dialog from './components/dialog.vue'
 import { formatDate } from '@/filters'
+import QrCode from 'qrcode'
 export default {
   components: { Dialog },
   data() {
@@ -71,7 +80,8 @@ export default {
       },
       stuffList: [],
       EmployeesEnum,
-      isDialogShow: false
+      isDialogShow: false,
+      isQrCodeShow: false
     }
   },
   created() {
@@ -143,6 +153,18 @@ export default {
           return item[header[key]]
         })
       })
+    },
+    showQrCode(url) {
+      if (url) {
+        this.isQrCodeShow = true
+        // <!-- 把url转换为二维码 -->，但是！！！组件更新是异步的，拿不到组件实例
+        this.$nextT(() => {
+          // 确认有DOM元素了，再进行二维码转换
+          QrCode.toCanvas(this.$refs.canvasRef, url)
+        })
+      } else {
+        this.$message.info('该用户暂未上传图片')
+      }
     }
   }
 
