@@ -15,6 +15,8 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import Print from 'vue-print-nb' // print
+
 // directives
 import * as directives from '@/directives'
 // components
@@ -27,6 +29,10 @@ Object.keys(directives).forEach(key => {
 })
 // 注册全局组件
 Vue.use(components)
+
+// Print directive
+Vue.use(Print)
+
 // 注册全局过滤器
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

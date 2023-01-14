@@ -20,9 +20,23 @@
           </el-tab-pane>
           <el-tab-pane label="个人详情">
             <!-- 动态组件 -->
+            <el-row type="flex" justify="end">
+              <el-tooltip content="打印个人基本信息">
+                <router-link :to="`/employees/print/${stuffId}?type=personal`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <component :is="personalComponent" />
           </el-tab-pane>
           <el-tab-pane label="岗位信息">
+            <el-row type="flex" justify="end">
+              <el-tooltip content="打印岗位信息">
+                <router-link :to="`/employees/print/${stuffId}?type=job`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <Job />
           </el-tab-pane>
         </el-tabs>
